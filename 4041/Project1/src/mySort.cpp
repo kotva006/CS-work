@@ -8,16 +8,18 @@
 using namespace std;
 
 
-int operationCounter;
+long long operationCounter;
 //Heap sort algorithm
 void maxHeapify(int *inArray, int index, int heapSize) {
   int left = 2*index;
   int right = (2*index) + 1;
   int largest = 0;
+  operationCounter++;
   if (left <= heapSize && inArray[left] > inArray[index]) {
     largest = left;}
   else {
     largest = index;}
+  operationCounter++;
   if (right <= heapSize and inArray[right] > inArray[largest]) {
     largest = right;}
   if (largest != index) {
@@ -67,6 +69,7 @@ void mergeSort(int *inArray, int lowEnd, int highEnd) {
         int j = 1;
         int count = 0;
         for (count = lowEnd; count < highEnd +1; count++) {
+            operationCounter++;
             if (left[j] < right[i]) {
                 inArray[count] = left[j];
                 j++;
@@ -84,6 +87,7 @@ void quickSort(int *inArray, int lowEnd, int highEnd) {
         int i = lowEnd -1;
         int j = 0;
         for (j = lowEnd; j < highEnd; j++) {
+          operationCounter++;
           if (inArray[j] <= temp) {
              i++;
              swap(inArray[i], inArray[j]);
@@ -139,7 +143,7 @@ int main (int argc, char **argv) {
 /* This is the implementation of the Insertion sort */
 
   if (flag[0] == 'i') {
-      printf("Insertion Sort\n");
+      //printf("Insertion Sort\n");
       //insertion
       gettimeofday(&timeBegin, 0);
       int j = 1;
@@ -147,7 +151,9 @@ int main (int argc, char **argv) {
 
           int temp = unsorted[j];
           int i = j - 1;
+          operationCounter++;
           while (i>0 && unsorted[i] > temp) {
+              operationCounter++;
               unsorted[i+1] = unsorted[i];
               i = i - 1;
           }
@@ -157,7 +163,7 @@ int main (int argc, char **argv) {
       gettimeofday(&timeEnd, 0);
   }
   else if (flag[0] == 'm') {
-      printf("Merge Sort\n");
+      //printf("Merge Sort\n");
       gettimeofday(&timeBegin, 0);
       mergeSort(unsorted, 1, length-1);
       gettimeofday(&timeEnd, 0);
@@ -165,7 +171,7 @@ int main (int argc, char **argv) {
   }
   
   else if (flag[0] == 'h') {
-      printf("Heap Sort\n");
+      //printf("Heap Sort\n");
       gettimeofday(&timeBegin, 0);
       heapSort(unsorted, length-1);
       gettimeofday(&timeEnd, 0);
@@ -173,7 +179,7 @@ int main (int argc, char **argv) {
   }
 
   else if (flag[0] == 'q') {
-      printf("Quick Sort\n");
+      //printf("Quick Sort\n");
       gettimeofday(&timeBegin, 0);
       quickSort(unsorted, 1, length-1);
       gettimeofday(&timeEnd, 0);
@@ -196,7 +202,7 @@ int main (int argc, char **argv) {
           i++;
       }
       dataFile << operationCounter << "\n";
-      dataFile << timeEnd.tv_usec - timeBegin.tv_usec << "\n";
+      dataFile << (((timeEnd.tv_sec - timeBegin.tv_sec) * 1000) +  ((timeEnd.tv_usec - timeBegin.tv_usec ) / 1000))<< " milliseconds\n";
       outFile.close();
       dataFile.close();
       return 0;
